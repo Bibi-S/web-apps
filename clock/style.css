@@ -1,0 +1,77 @@
+:root {
+  --body-background: snow;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  _border: 5px solid rgb(165, 58, 58);
+}
+
+input,
+select,
+button {
+  font-family: inherit;
+}
+
+body {
+  background-color: yellow;
+  _transition: background-color 500ms linear;
+}
+.flexy {
+  width: 100%;
+  height: 100vh;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#analog-clock {
+  width: 500px;
+  height: 500px;
+  font-family: monospace;
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 50%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+}
+.hand {
+  color: red;
+  height: 40%;
+  width: 2px;
+  background-color: black;
+  border: 0solid black;
+  position: absolute;
+  translate: -50%;
+  bottom: 50%;
+  transform-origin: center bottom;
+}
+
+.digital-clock {
+  font-size: 2rem;
+  color: black;
+  font-family: monospace;
+  display: flex;
+  flex-direction: row;
+  padding-top: 20px;
+  background-color: transparent;
+  border: transparent;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+#minute {
+  width: 4px;
+}
+#hour {
+  width: 6px;
+  height: 30%;
+}

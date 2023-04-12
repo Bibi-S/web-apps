@@ -4,15 +4,17 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>password-tgl</title>
+    <title>Counter</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <header class="header">
+      <h1>Counter</h1>
+      <p>(click the white area or hit space / enter to count)</p>
+      <button id="reseted" type="reset">Reset</button>
+    </header>
     <main class="flexy">
-      <form>
-        <input type="password" id="passWord" />
-        <button type="button" id="show">Show Password</button>
-      </form>
+      <div id="counter">0</div>
     </main>
     <script src="script.js"></script>
   </body>

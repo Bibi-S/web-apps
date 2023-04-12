@@ -1,0 +1,64 @@
+:root {
+  --body-background: snow;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  _border: 0.5px solid rgb(165, 58, 58);
+  font-family: monospace;
+  margin: 0px;
+}
+
+input,
+select,
+button {
+  font-family: inherit;
+}
+
+body {
+  background-color: rgb(141, 81, 138);
+  _background-image: linear-gradient(rgb(122, 59, 59) 20%, rgb(65, 71, 35) 80%);
+  /* _background-image: linear-gradient(
+    transparent 0%,
+    rgb(59, 122, 59) 20%,
+    rgb(13, 12, 14) 100%
+  ); */
+}
+
+.main-color {
+  padding-top: 50px;
+
+  width: 100%;
+  height: 100vh;
+  _border: 10px solid black;
+}
+.flexy-header {
+  position: absolute;
+  left: 20px;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  justify-content: left;
+  align-items: baseline;
+}
+label {
+  font-size: 3rem;
+}
+#red {
+  accent-color: red;
+}
+#green {
+  accent-color: green;
+}
+#blue {
+  accent-color: blue;
+}
+#color-code {
+  position: fixed;
+  right: 20px;
+  font-size: 3rem;
+}

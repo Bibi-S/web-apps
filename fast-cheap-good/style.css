@@ -7,12 +7,15 @@
 *::after {
   box-sizing: border-box;
   _border: 5px solid rgb(165, 58, 58);
+  font-size: 2rem;
 }
 
 input,
 select,
 button {
   font-family: inherit;
+  width: 50px;
+  height: 50px;
 }
 .flexy {
   width: 100%;
@@ -21,4 +24,5 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
+  _row-gap: 3rem;
 }
