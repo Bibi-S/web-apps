@@ -1,15 +1,17 @@
-let todosStateList = []; //hier initialisiere ich meine todo-list ABER "intern"!!!!
+let todosStateList = []; //hier initialisiere ich meine todos -( state )- list ABER "intern"!!!!
+// später kommen diese Daten vom Backend
 
 const todoInputElement = document.querySelector("#todo-input");
 const addBtn = document.querySelector("#add-btn");
 const todoUlList = document.querySelector("#todo-ul-list");
+const removeBtn = document.querySelector("#remove-btn");
 
-//todoUlList.innerHTML = "";
+///////*******************STATE MANAGEMENT************************/////////////////
 
-///////*******************STATE MANAGEMENT************************////////
+///////UPDATE STATE LIST - Function ////////////
 
-///////UPDATE STATE LIST -  Function ////////////  -----"intern"!!!!
-function updateTodosStateList() {
+//Adds New Todo Object in StateList-"intern"!
+function addTodoObj() {
   let newTodo = {
     id: Date.now(),
     description: todoInputElement.value,
@@ -18,24 +20,28 @@ function updateTodosStateList() {
   todosStateList.push(newTodo);
 }
 
-//UPDATE STATE LIST - Action //////////////////
+///////UPDATE STATE LIST - Action //////////////////
 addBtn.addEventListener("click", function () {
-  updateTodosStateList();
-  renderHtml();
+  addTodoObj();
+  renderHtmlAdd();
+  todoInputElement.value = "";
 });
 
-///////************************************************************////////
+removeBtn.addEventListener("click", function () {
+  renderHtmlRemove();
+});
 
-///////*******************RENDER**********************************////////
+///////************************************************************///////////////////
+
+///////**********************RENDER*******************************///////////////////
 
 ///////UPDATE HTML - ADD TODOS ////////// -----"extern" für User sichtbar!!!!
-function renderHtml() {
+function renderHtmlAdd() {
   todoUlList.innerHTML = "";
-
-  //todosStateList.description = todoInputElement.value;
 
   for (let i = 0; i < todosStateList.length; i++) {
     const todo = todosStateList[i];
+    //console.log(todo);
     const newLiElement = document.createElement("li"); //create -method nur am DOM Element!!!!
     const text = document.createTextNode(todo.description);
     newLiElement.append(text);
@@ -43,6 +49,11 @@ function renderHtml() {
     todoUlList.appendChild(newLiElement);
   }
 }
-
-///////***********************************************************////////
-renderHtml();
+// ///////UPDATE HTML - REMOVE TODOS ////////// -----"extern" für User sichtbar!!!!
+function renderHtmlRemove() {
+  todosStateList = [];
+  todoUlList.innerHTML = "";
+}
+///////***********************************************************/////////////////
+renderHtmlAdd();
+renderHtmlRemove();
