@@ -45,7 +45,17 @@ function renderHtmlAdd() {
     const newLiElement = document.createElement("li"); //create -method nur am DOM Element!!!!
     const text = document.createTextNode(todo.description);
     newLiElement.append(text);
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.addEventListener("change", function () {
+      if (checkbox.checked) {
+        todo.done = true;
+      } else {
+        todo.done = false;
+      }
+    });
 
+    newLiElement.appendChild(checkbox);
     todoUlList.appendChild(newLiElement);
   }
 }
