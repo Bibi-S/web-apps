@@ -41,7 +41,7 @@ function renderHtmlAdd() {
 
   for (let i = 0; i < todosStateList.length; i++) {
     const todo = todosStateList[i];
-    //console.log(todo);
+
     const newLiElement = document.createElement("li"); //create -method nur am DOM Element!!!!
     const text = document.createTextNode(todo.description);
     newLiElement.append(text);
@@ -61,9 +61,27 @@ function renderHtmlAdd() {
 }
 // ///////UPDATE HTML - REMOVE TODOS ////////// -----"extern" für User sichtbar!!!!
 function renderHtmlRemove() {
-  todosStateList = [];
-  todoUlList.innerHTML = "";
+  let indexFinder = todosStateList.findIndex((item) => item.done === true);
+
+  let doneTodoIndex = indexFinder;
+  todosStateList.splice(doneTodoIndex, 1);
+
+  // for (let i = 0; i < todosStateList.length; i++) {
+  //   const todoDel = todosStateList[i].done;
+  //   console.log(todoDel);
+  //   let findervar = todosStateList.find(
+  //     (todoDel) => todoDel.done === true
+  //   ).done;
+  //   console.log(findervar);
+  // }
 }
+// if ((todo.done = true)) {
+//   let finder = todosStateList.findIndex((todo.done = true));
+// }
+// console.log(todo);
+//console.log(find);
+//todosStateList = [];
+// todoUlList.innerHTML = "";
+
 ///////***********************************************************/////////////////
 renderHtmlAdd();
-renderHtmlRemove();
