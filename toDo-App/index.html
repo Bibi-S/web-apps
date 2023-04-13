@@ -8,8 +8,21 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <input id="to-do" type="text" /><button id="add-btn">Add Todos</button>
-    <ul id="tasks-list"></ul>
+    <section>
+      <h1>ToDos</h1>
+      <ul>
+        <li><input type="radio" name="All" id="all" />All</li>
+        <li><input type="radio" name="Open" id="open" />Open</li>
+        <li><input type="radio" name="Close" id="close" />Close</li>
+      </ul>
+    </section>
+    <section>
+      <input id="todo-input" type="text" />
+      <button id="add-btn">Add Todos</button>
+      <button id="remove-btn">Remove Todos</button>
+      <ul id="todo-ul-list"></ul>
+    </section>
+
     <script src="script.js"></script>
   </body>
 </html>

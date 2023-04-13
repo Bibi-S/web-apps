@@ -1,43 +1,48 @@
-const state = {};
+let todosStateList = []; //hier initialisiere ich meine todo-list ABER "intern"!!!!
 
-const toDos = document.querySelector("#to-do");
+const todoInputElement = document.querySelector("#todo-input");
 const addBtn = document.querySelector("#add-btn");
-const tasksList = document.querySelector("#tasks-list");
+const todoUlList = document.querySelector("#todo-ul-list");
 
-let checky;
-/////// ADD NEW TASK //////////
-function addTask() {
-  let result;
-  let todoText = toDos.value;
-  //typeof todoText === "string";
-  //console.log(todoText);
-  const newTask = document.createElement("li");
-  const task = document.createElement("input");
-  task.type = "checkbox";
-  let checky = task.type;
-  const taskText = document.createTextNode(`${todoText}`); //create -methon nur am DOM Element!!!!
-  newTask.appendChild(task);
-  newTask.append(taskText);
+//todoUlList.innerHTML = "";
 
-  //console.log(newTask.attributes);
-  tasksList.appendChild(newTask);
-  //console.log(tasksList);
-  //console.log(taskText);
-  return [newTask, checky];
+///////*******************STATE MANAGEMENT************************////////
+
+///////UPDATE STATE LIST -  Function ////////////  -----"intern"!!!!
+function updateTodosStateList() {
+  let newTodo = {
+    id: Date.now(),
+    description: todoInputElement.value,
+    done: false,
+  };
+  todosStateList.push(newTodo);
 }
-addBtn.addEventListener("click", addTask);
-////////////////////////////////
-let arguments = addTask();
-///// CREATE TASKS LIST /////////////
-function createTasksList() {
-  let arguments = addTask();
 
-  let state;
-  state.push({ description: arguments[0], done: arguments[1].checked });
+//UPDATE STATE LIST - Action //////////////////
+addBtn.addEventListener("click", function () {
+  updateTodosStateList();
+  renderHtml();
+});
+
+///////************************************************************////////
+
+///////*******************RENDER**********************************////////
+
+///////UPDATE HTML - ADD TODOS ////////// -----"extern" für User sichtbar!!!!
+function renderHtml() {
+  todoUlList.innerHTML = "";
+
+  //todosStateList.description = todoInputElement.value;
+
+  for (let i = 0; i < todosStateList.length; i++) {
+    const todo = todosStateList[i];
+    const newLiElement = document.createElement("li"); //create -method nur am DOM Element!!!!
+    const text = document.createTextNode(todo.description);
+    newLiElement.append(text);
+
+    todoUlList.appendChild(newLiElement);
+  }
 }
-//createTasksList();
-console.log(state);
-console.log(arguments[0]);
-console.log(arguments[1]);
-arguments[1].addEventListener("change", createTasksList);
-/////////////////////////////
+
+///////***********************************************************////////
+renderHtml();
