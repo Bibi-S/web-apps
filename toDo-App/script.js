@@ -5,6 +5,9 @@ const todoInputElement = document.querySelector("#todo-input");
 const addBtn = document.querySelector("#add-btn");
 const todoUlList = document.querySelector("#todo-ul-list");
 const removeBtn = document.querySelector("#remove-btn");
+const allBtn = document.querySelector("#all");
+const openBtn = document.querySelector("#open");
+const closeBtn = document.querySelector("#close");
 
 ///////*******************STATE MANAGEMENT************************/////////////////
 
@@ -26,24 +29,28 @@ function removeTodoObj() {
   let doneTodoIndex = indexFinder;
   todosStateList.splice(doneTodoIndex, 1);
 }
+//ALTERNATIVE:
+// const filterElements = todosStateList.filter((item) => item.done === false);
+// todosStateList = filterElements;
+
 ///////UPDATE STATE LIST - Actions //////////////////
 addBtn.addEventListener("click", function () {
   addTodoObj();
-  renderHtmlAdd();
+  renderHtml();
   todoInputElement.value = "";
 });
 
 removeBtn.addEventListener("click", function () {
   removeTodoObj();
-  renderHtmlRemove();
+  renderHtml();
 });
 
 ///////************************************************************///////////////////
 
 ///////**********************RENDER*******************************///////////////////
 
-///////UPDATE HTML - ADD TODOS ////////// -----"extern" für User sichtbar!!!!
-function renderHtmlAdd() {
+///////UPDATE HTML - ADD/REMOVE TODOS ////////// -----"extern" für User sichtbar!!!!
+function renderHtml() {
   todoUlList.innerHTML = "";
 
   for (let i = 0; i < todosStateList.length; i++) {
@@ -54,31 +61,20 @@ function renderHtmlAdd() {
     newLiElement.append(text);
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
+    checkbox.checked = todo.done;
     checkbox.addEventListener("change", function () {
       if (checkbox.checked) {
         todo.done = true;
       } else {
         todo.done = false;
       }
+      //ALTERNATIVE;
+      // todo.done = checkbox.checked;
     });
 
     newLiElement.appendChild(checkbox);
     todoUlList.appendChild(newLiElement);
   }
 }
-// ///////UPDATE HTML - REMOVE TODOS ////////// -----"extern" für User sichtbar!!!!
-function renderHtmlRemove() {
-  var inputsElements = document
-    .getElementById("todo-ul-list")
-    .querySelectorAll("li");
-  console.log(inputsElements);
-  for (let i = 0; i < inputsElements.length; i++) {
-    const liElements = inputsElements[i];
-    console.log(liElements);
-    if (liElements.checked) {
-      liElements.remove(document.querySelectorAll("li"));
-    }
-  }
-}
-///////***********************************************************/////////////////
-renderHtmlAdd();
+///////************************************************************///////////////////
+renderHtml();
