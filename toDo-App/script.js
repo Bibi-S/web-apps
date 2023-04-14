@@ -8,7 +8,7 @@ const removeBtn = document.querySelector("#remove-btn");
 
 ///////*******************STATE MANAGEMENT************************/////////////////
 
-///////UPDATE STATE LIST - Function ////////////
+///////UPDATE STATE LIST - Functions ////////////
 
 //Adds New Todo Object in StateList-"intern"!
 function addTodoObj() {
@@ -20,7 +20,13 @@ function addTodoObj() {
   todosStateList.push(newTodo);
 }
 
-///////UPDATE STATE LIST - Action //////////////////
+//Removes "Done"-Todo Object from StateList-"intern"!
+function removeTodoObj() {
+  let indexFinder = todosStateList.findIndex((item) => item.done === true);
+  let doneTodoIndex = indexFinder;
+  todosStateList.splice(doneTodoIndex, 1);
+}
+///////UPDATE STATE LIST - Actions //////////////////
 addBtn.addEventListener("click", function () {
   addTodoObj();
   renderHtmlAdd();
@@ -28,6 +34,7 @@ addBtn.addEventListener("click", function () {
 });
 
 removeBtn.addEventListener("click", function () {
+  removeTodoObj();
   renderHtmlRemove();
 });
 
@@ -61,27 +68,17 @@ function renderHtmlAdd() {
 }
 // ///////UPDATE HTML - REMOVE TODOS ////////// -----"extern" für User sichtbar!!!!
 function renderHtmlRemove() {
-  let indexFinder = todosStateList.findIndex((item) => item.done === true);
-
-  let doneTodoIndex = indexFinder;
-  todosStateList.splice(doneTodoIndex, 1);
-
-  // for (let i = 0; i < todosStateList.length; i++) {
-  //   const todoDel = todosStateList[i].done;
-  //   console.log(todoDel);
-  //   let findervar = todosStateList.find(
-  //     (todoDel) => todoDel.done === true
-  //   ).done;
-  //   console.log(findervar);
-  // }
+  var inputsElements = document
+    .getElementById("todo-ul-list")
+    .querySelectorAll("li");
+  console.log(inputsElements);
+  for (let i = 0; i < inputsElements.length; i++) {
+    const liElements = inputsElements[i];
+    console.log(liElements);
+    if (liElements.checked) {
+      liElements.remove(document.querySelectorAll("li"));
+    }
+  }
 }
-// if ((todo.done = true)) {
-//   let finder = todosStateList.findIndex((todo.done = true));
-// }
-// console.log(todo);
-//console.log(find);
-//todosStateList = [];
-// todoUlList.innerHTML = "";
-
 ///////***********************************************************/////////////////
 renderHtmlAdd();
