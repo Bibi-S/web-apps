@@ -25,13 +25,14 @@ function addTodoObj() {
 
 //Removes "Done"-Todo Object from StateList-"intern"!
 function removeTodoObj() {
-  let indexFinder = todosStateList.findIndex((item) => item.done === true);
-  let doneTodoIndex = indexFinder;
-  todosStateList.splice(doneTodoIndex, 1);
+  const filterElements = todosStateList.filter((item) => item.done === false);
+  todosStateList = filterElements;
+
+  //--------ALTERNATIVE: hier nur ein Todo pro "klick"-----------//
+  // const indexFinder = todosStateList.findIndex((item) => item.done === true);
+  // const doneTodoIndex = indexFinder;
+  // todosStateList.splice(doneTodoIndex, 1); -hier nur ein Todo pro "klick"
 }
-//ALTERNATIVE:
-// const filterElements = todosStateList.filter((item) => item.done === false);
-// todosStateList = filterElements;
 
 ///////UPDATE STATE LIST - Actions //////////////////
 addBtn.addEventListener("click", function () {
@@ -44,6 +45,12 @@ removeBtn.addEventListener("click", function () {
   removeTodoObj();
   renderHtml();
 });
+
+allBtn.addEventListener("change", function () {});
+
+openBtn.addEventListener("change", function () {});
+
+closeBtn.addEventListener("change", function () {});
 
 ///////************************************************************///////////////////
 
@@ -74,6 +81,15 @@ function renderHtml() {
 
     newLiElement.appendChild(checkbox);
     todoUlList.appendChild(newLiElement);
+  }
+}
+
+///////UPDATE HTML - FILTER TODOS ////////// -----"extern" für User sichtbar!!!!
+function filterTodos() {
+  for (let i = 0; i < todosStateList.length; i++) {
+    const filterTodo = todosStateList[i];
+    if (filterTodo.done === true) {
+    }
   }
 }
 ///////************************************************************///////////////////
