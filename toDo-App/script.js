@@ -1,4 +1,5 @@
 let todosStateList = [];
+let filterdTodoStateList = [];
 //hier initialisiere ich meine todos -( state )- list ABER "intern"!!!!
 // später kommen diese Daten vom Backend
 
@@ -43,27 +44,33 @@ function filterOpen() {
     if (todofilterdObj.done === false) {
       filterdTodoList.push(todofilterdObj);
       //filterdTodoList = [...filterdTodoList, todofilterdObj];
+      //console.log(todofilterdObj);
     }
   }
-
-  console.log(filterdTodoList);
-  // console.log(todosStateList);
+  filterdTodoStateList = filterdTodoList;
+  //console.log(filterdTodoList);
+  console.log(filterdTodoStateList);
 }
+// console.log(todosStateList);
 
 function filterClose() {
   let filterdTodoList = [];
   for (let i = 0; i < todosStateList.length; i++) {
     const todofilterdObj = todosStateList[i];
+    //console.log(todofilterdObj);
 
     if (todofilterdObj.done === true) {
       filterdTodoList.push(todofilterdObj);
       //filterdTodoList = [...filterdTodoList, todofilterdObj];
+      //console.log(todofilterdObj);
     }
   }
-
-  console.log(filterdTodoList);
-  //console.log(todosStateList);
+  filterdTodoStateList = filterdTodoList;
+  //console.log(filterdTodoList);
+  console.log(filterdTodoStateList);
 }
+
+//console.log(todosStateList);
 ///////UPDATE STATE LIST - Actions //////////////////
 addBtn.addEventListener("click", function () {
   addTodoObj();
@@ -84,12 +91,12 @@ allBtn.addEventListener("change", function () {
 
 openBtn.addEventListener("change", function () {
   filterOpen();
-  //renderHtml();
+  renderHtmlFilterd();
 });
 
 closeBtn.addEventListener("change", function () {
   filterClose();
-  //renderHtml();
+  renderHtmlFilterd();
 });
 
 ///////************************************************************///////////////////
@@ -121,6 +128,24 @@ function renderHtml() {
       // todo.done = checkbox.checked;
     });
 
+    newLiElement.appendChild(checkbox);
+    todoUlList.appendChild(newLiElement);
+  }
+}
+//////filter HTML////////7
+
+function renderHtmlFilterd() {
+  todoUlList.innerHTML = "";
+
+  for (let i = 0; i < filterdTodoStateList.length; i++) {
+    const todofilterdObj = filterdTodoStateList[i];
+    const newLiElement = document.createElement("li"); //create -method nur am DOM Element!!!!
+    const text = document.createTextNode(todofilterdObj.description);
+    newLiElement.append(text);
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = todofilterdObj.done;
+    //console.log(todofilterdObj);
     newLiElement.appendChild(checkbox);
     todoUlList.appendChild(newLiElement);
   }
