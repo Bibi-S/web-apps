@@ -1,0 +1,40 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  _border: 5px solid rgb(165, 58, 58);
+}
+
+input,
+select,
+button {
+  font-family: inherit;
+}
+
+body {
+}
+.flexy {
+  width: 300px;
+  height: 600px;
+  -margin: auto;
+  display: flex;
+  flex-direction: column;
+  -justify-content: center;
+  -align-items: center;
+  border: 5px solid black;
+}
+
+.flexy-header {
+  display: flex;
+  flex-direction: row;
+  background-color: aqua;
+  gap: 20px;
+  padding: 50px;
+  -margin: 0px;
+}
+.flexy-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 2rem;
+}
