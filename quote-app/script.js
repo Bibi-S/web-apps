@@ -14,7 +14,8 @@ function addQuote() {
     .then((data) => {
       const quoteText = data.quote;
       const quoteAuthor = data.author;
-      quoteList.push(quoteText, quoteAuthor);
+      listWithFetch = [quoteText, quoteAuthor];
+      quoteList = listWithFetch;
       // return result.push(quoteText, quoteAuthor);
     });
 }
@@ -37,4 +38,3 @@ quotesBtn.addEventListener("click", function () {
   renderApp();
   console.log(quoteList);
 });
-// renderApp();
