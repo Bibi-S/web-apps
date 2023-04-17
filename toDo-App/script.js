@@ -22,8 +22,14 @@ function updateLocalStorage() {
 //Reads from Local Storage-"intern"!
 function readLocalStorage() {
   const todosLocalStorage = localStorage.getItem("todos");
-  todosStateList = JSON.parse(todosLocalStorage);
+  if (todosLocalStorage !== null) {
+    todosStateList = JSON.parse(todosLocalStorage);
+    // } else {
+    //   updateLocalStorage();
+    //   todosStateList = JSON.parse(todosLocalStorage);
+  }
 }
+
 ///// UPDATE STATE LIST - Functions ////////////
 
 //Adds New Todo Object in StateList-"intern"!
@@ -173,6 +179,8 @@ function renderHtmlFilterd() {
     todoUlList.appendChild(newLiElement);
   }
 }
-///////************************************************************///////////////////
+///////********************************updateLocalStorage();
+
 readLocalStorage();
+updateLocalStorage();
 renderHtml();
