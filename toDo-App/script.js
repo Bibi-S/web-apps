@@ -13,7 +13,18 @@ const closeBtn = document.querySelector("#close");
 
 ///////*******************STATE MANAGEMENT************************/////////////////
 
-///////UPDATE STATE LIST - Functions ////////////
+///// UPDATE LOCAL STORAGE - Functions ///////////
+
+//Writes to Local Storage-"intern"!
+function updateLocalStorage() {
+  localStorage.setItem("todos", JSON.stringify(todosStateList));
+}
+//Reads from Local Storage-"intern"!
+function readLocalStorage() {
+  const todosLocalStorage = localStorage.getItem("todos");
+  todosStateList = JSON.parse(todosLocalStorage);
+}
+///// UPDATE STATE LIST - Functions ////////////
 
 //Adds New Todo Object in StateList-"intern"!
 function addTodoObj() {
@@ -23,6 +34,7 @@ function addTodoObj() {
     done: false,
   };
   todosStateList.push(newTodo);
+  updateLocalStorage();
 }
 
 //Removes "Done"-Todo Object from StateList - "intern"!
@@ -40,60 +52,73 @@ function filterOpen() {
   let filterdTodoList = [];
   for (let i = 0; i < todosStateList.length; i++) {
     const todofilterdObj = todosStateList[i];
-
     if (todofilterdObj.done === false) {
       filterdTodoList.push(todofilterdObj);
+      // ALTERNATIVE für Copy:
       //filterdTodoList = [...filterdTodoList, todofilterdObj];
       //console.log(todofilterdObj);
     }
   }
   filterdTodoStateList = filterdTodoList;
-  //console.log(filterdTodoList);
-  console.log(filterdTodoStateList);
+  //console.log(filterdTodoStateList);
 }
-// console.log(todosStateList);
 
 function filterClose() {
   let filterdTodoList = [];
   for (let i = 0; i < todosStateList.length; i++) {
     const todofilterdObj = todosStateList[i];
     //console.log(todofilterdObj);
-
     if (todofilterdObj.done === true) {
       filterdTodoList.push(todofilterdObj);
+      // ALTERNATIVE für Copy:
       //filterdTodoList = [...filterdTodoList, todofilterdObj];
       //console.log(todofilterdObj);
     }
   }
   filterdTodoStateList = filterdTodoList;
-  //console.log(filterdTodoList);
-  console.log(filterdTodoStateList);
+  //console.log(filterdTodoStateList);
 }
 
-//console.log(todosStateList);
 ///////UPDATE STATE LIST - Actions //////////////////
-addBtn.addEventListener("click", function () {
-  addTodoObj();
-  renderHtml();
-  todoInputElement.value = "";
-});
 
+// Adds new ToDo
+addBtn.addEventListener("click", function () {
+  //console.log(todoInputElement.value);
+  // console.log(todosStateList);
+  if (
+    todosStateList.some(
+      (item) =>
+        item.description.toLowerCase() === todoInputElement.value.toLowerCase()
+    )
+  ) {
+    window.alert("todo alrady exist");
+  } else {
+    addTodoObj();
+    updateLocalStorage();
+    renderHtml();
+    todoInputElement.value = "";
+  }
+});
+// Removes Close ToDo
 removeBtn.addEventListener("click", function () {
   removeTodoObj();
+  updateLocalStorage();
   renderHtml();
 });
 
+//Filters All
 allBtn.addEventListener("change", function () {
   todosStateList;
-  console.log(todosStateList);
   renderHtml();
 });
 
+//Filters Open
 openBtn.addEventListener("change", function () {
   filterOpen();
   renderHtmlFilterd();
 });
 
+//Filters Close
 closeBtn.addEventListener("change", function () {
   filterClose();
   renderHtmlFilterd();
@@ -103,14 +128,12 @@ closeBtn.addEventListener("change", function () {
 
 ///////**********************RENDER*******************************///////////////////
 
-///////UPDATE HTML - ADD/REMOVE TODOS ////////// -----"extern" für User sichtbar!!!!
+/////// UPDATE HTML - ADD/REMOVE TODOS ////////// -----"extern" für User sichtbar!!!!
 function renderHtml() {
   todoUlList.innerHTML = "";
 
   for (let i = 0; i < todosStateList.length; i++) {
     const todo = todosStateList[i];
-    // console.log(todo.done);
-    //console.log(todo);
 
     const newLiElement = document.createElement("li"); //create -method nur am DOM Element!!!!
     const text = document.createTextNode(todo.description);
@@ -124,6 +147,7 @@ function renderHtml() {
       } else {
         todo.done = false;
       }
+      updateLocalStorage();
       //ALTERNATIVE;
       // todo.done = checkbox.checked;
     });
@@ -132,24 +156,23 @@ function renderHtml() {
     todoUlList.appendChild(newLiElement);
   }
 }
-//////filter HTML////////7
+/////// FILTER HTML //////////////////////////////-----"extern" für User sichtbar!!!!
 
 function renderHtmlFilterd() {
   todoUlList.innerHTML = "";
 
   for (let i = 0; i < filterdTodoStateList.length; i++) {
     const todofilterdObj = filterdTodoStateList[i];
-    const newLiElement = document.createElement("li"); //create -method nur am DOM Element!!!!
+    const newLiElement = document.createElement("li");
     const text = document.createTextNode(todofilterdObj.description);
     newLiElement.append(text);
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.checked = todofilterdObj.done;
-    //console.log(todofilterdObj);
     newLiElement.appendChild(checkbox);
     todoUlList.appendChild(newLiElement);
   }
 }
-
 ///////************************************************************///////////////////
+readLocalStorage();
 renderHtml();
