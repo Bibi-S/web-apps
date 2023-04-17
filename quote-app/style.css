@@ -2,6 +2,7 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  font-size: 1.3rem;
   _border: 5px solid rgb(165, 58, 58);
 }
 
@@ -12,29 +13,49 @@ button {
 }
 
 body {
+  background-color: snow;
+
+  font-family: "Montserrat", sans-serif;
+}
+
+.flexy:hover {
+  transform: scale(1.5);
 }
 .flexy {
-  width: 300px;
-  height: 600px;
-  -margin: auto;
+  width: 450px;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   -justify-content: center;
   -align-items: center;
   border: 5px solid black;
+  transform-origin: 0 0 0;
 }
 
 .flexy-header {
   display: flex;
   flex-direction: row;
+  align-items: center;
   background-color: aqua;
-  gap: 20px;
+  gap: 40px;
   padding: 50px;
-  -margin: 0px;
+  font-weight: bold;
+}
+#button {
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+  background-color: blue;
+  border-radius: 5px;
+  border: solid blue;
 }
 .flexy-list {
+  font-size: 2rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin-top: 2rem;
+}
+.author {
+  font-size: 0.8rem;
 }
