@@ -1,5 +1,6 @@
 let quoteList = [];
 const olList = document.querySelector("#ol-list");
+const author = document.querySelector(".author");
 const quotesBtn = document.querySelector("#button");
 
 function addQuote() {
@@ -12,29 +13,31 @@ function addQuote() {
       }
     })
     .then((data) => {
+      //console.log("fetch");
       const quoteText = data.quote;
       const quoteAuthor = data.author;
       listWithFetch = [quoteText, quoteAuthor];
       quoteList = listWithFetch;
+      renderApp();
       // return result.push(quoteText, quoteAuthor);
     });
 }
 
 function renderApp() {
-  console.log(quoteList[0]);
-  console.log(quoteList[1]);
+  //console.log(quoteList[0]);
+  // console.log(quoteList[1]);
+  //console.log("render");
+  olList.innerHTML = "";
   const newLiElement = document.createElement("li");
   const textLi = document.createTextNode(quoteList[0]);
   newLiElement.append(textLi);
   const divElement = document.createElement("div");
-  const textDiv = document.createTextNode(quoteList[1]);
-  divElement.append(textDiv);
+  author.innerText = quoteList[1];
   olList.appendChild(newLiElement);
-  olList.append(divElement);
 }
 
 quotesBtn.addEventListener("click", function () {
   addQuote();
-  renderApp();
-  console.log(quoteList);
+
+  //console.log(quoteList);
 });
