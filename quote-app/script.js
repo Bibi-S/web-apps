@@ -31,9 +31,8 @@ function renderApp() {
   const newLiElement = document.createElement("li");
   const textLi = document.createTextNode(quoteList[0]);
   newLiElement.append(textLi);
-  const divElement = document.createElement("div");
-  author.innerText = quoteList[1];
   olList.appendChild(newLiElement);
+  author.innerText = quoteList[1];
 }
 
 quotesBtn.addEventListener("click", function () {

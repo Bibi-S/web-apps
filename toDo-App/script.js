@@ -15,11 +15,11 @@ const closeBtn = document.querySelector("#close");
 
 ///// UPDATE LOCAL STORAGE - Functions ///////////
 
-//Writes to Local Storage-"intern"!
+//Writes data to Local Storage-"intern"!
 function updateLocalStorage() {
   localStorage.setItem("todos", JSON.stringify(todosStateList));
 }
-//Reads from Local Storage-"intern"!
+//Reads data from Local Storage-"intern"!
 function readLocalStorage() {
   const todosLocalStorage = localStorage.getItem("todos");
   if (todosLocalStorage !== null) {
@@ -40,7 +40,6 @@ function addTodoObj() {
     done: false,
   };
   todosStateList.push(newTodo);
-  updateLocalStorage();
 }
 
 //Removes "Done"-Todo Object from StateList - "intern"!
