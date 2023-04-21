@@ -12,8 +12,12 @@ button {
 }
 body {
   background-image: linear-gradient(rgb(122, 59, 122) 20%, rgb(71, 35, 52) 80%);
+  color: rgb(255, 205, 255);
 }
-
+main {
+  border: 5px solid rgb(56, 50, 50);
+  background-color: rgb(168, 135, 163);
+}
 .header {
   font-size: 2rem;
   font-weight: bold;
@@ -29,8 +33,6 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 5px solid rgb(56, 50, 50);
-  background-color: rgb(168, 135, 163);
 }
 
 .flexy-filter {
