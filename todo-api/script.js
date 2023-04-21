@@ -7,8 +7,8 @@ const removeBtn = document.querySelector("#remove-btn");
 const allBtn = document.querySelector("#all");
 const openBtn = document.querySelector("#open");
 const closeBtn = document.querySelector("#close");
-
-function readApi() {
+/////////////////////////////////
+function readDataFromApi() {
   fetch("http://localhost:4730/todos")
     .then((response) => {
       if (response.status >= 200 && response.status <= 299) {
@@ -24,6 +24,44 @@ function readApi() {
     });
 }
 
+/////////////////////////////////
+// function addTodo() {
+//   const todoText = todoInputElement.value;
+//   const newTodo = {
+//     description: todoText,
+//     done: false,
+//   };
+//   return newTodo;
+// }
+function addTodoToApi() {
+  //addTodo();
+  //const todo = newTodo;
+  const todoText = todoInputElement.value;
+  const newTodo = {
+    description: todoText,
+    done: false,
+  };
+  fetch("http://localhost:4730/todos", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(newTodo), // JSON.stringify(newTodo);
+  })
+    .then((response) => response.json())
+    .then((todoFromApi) => {
+      todos.push(todoFromApi);
+      renderHtml();
+    });
+}
+function removeTodoFromApi() {
+  fetch("http://localhost:4730/todos/", {
+    //http://localhost:4730/todos"....[]
+    //hier func mit done===true einbauen
+    method: "DELETE",
+  })
+    .then((response) => response.json())
+    .then(() => {});
+}
+/////////////////////////////////
 function renderHtml() {
   todoUlList.innerHTML = "";
   todos.forEach((todo) => {
@@ -33,8 +71,15 @@ function renderHtml() {
     todoUlList.appendChild(newLiElement);
   });
 }
+////////////////////////////////
+readDataFromApi();
 
-readApi();
 addBtn.addEventListener("click", function () {
-  readApi();
+  addTodoToApi();
+});
+
+removeBtn.addEventListener("click", function () {
+  readDataFromApi();
+  removeTodoFromApi();
+  renderHtml();
 });
