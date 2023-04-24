@@ -48,7 +48,8 @@ main {
   row-gap: 10px;
 }
 #add-btn,
-#remove-btn {
+#remove-btn,
+#change-btn {
   height: 30px;
   width: 100px;
   font-size: 0.6rem;
