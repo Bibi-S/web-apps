@@ -2,12 +2,14 @@ const todoInputElement = document.querySelector("#todo-input");
 const addBtn = document.querySelector("#add-btn");
 const todoUlList = document.querySelector("#todo-ul-list");
 const removeBtn = document.querySelector("#remove-btn");
-const changeBtn = document.querySelector("#change-btn");
+const editBtn = document.querySelector("#edit-btn");
 const allBtn = document.querySelector("#all");
 const openBtn = document.querySelector("#open");
 const closeBtn = document.querySelector("#close");
 
-let todos = [];
+const state = {
+  todos: [],
+};
 
 /////////////////////////////////
 function readDataFromApi() {
@@ -20,80 +22,60 @@ function readDataFromApi() {
       }
     })
     .then((todosApi) => {
-      todos = todosApi;
-      console.log(todos);
+      state.todos = todosApi;
+      console.log(state.todos);
       renderHtml();
     });
 }
 /////////////////////////////////
-
-function addTodoToApi() {
+function addTodo() {
   const newTodo = {
     description: todoInputElement.value,
     done: false,
   };
   fetch("http://localhost:4730/todos", {
-    //zw.Z.43-46 ändere ich Backend
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(newTodo), //JSON.stringify(todos[todos.length - 1])
+    body: JSON.stringify(newTodo),
   })
     .then((response) => response.json())
     .then((todoFromApi) => {
-      //hier lese ich die Kopie von geändertem Backend
-      todos.push(todoFromApi); //hier aktualiseiere ich mein Frontend -also die todos-Liste lokal!!!
-      renderHtml(); //hier zeige ich die LOKALE aktualisierte todos-Liste im Browser
+      state.todos.push(todoFromApi);
+      todoInputElement.value = "";
+      renderHtml();
+      //zw.Z.36-39 hier ändere ich Backend
+      // Z.43 - hier lese ich die Kopie von geändertem Backend
+      // Z. 45 hier aktualiseiere ich mein Frontend -also die todos-Liste lokal!!!
+      //Z.47 hier zeige ich die LOKALE aktualisierte todos-Liste im Browser
     });
 }
-//////////////////////////////////
-function removeTodoFromApi() {
-  // //filter ändert nicht das Orginal
-  // const doneTodos = todos.filter((todo) => {
-  //   return todo.done === true;
-  // }); --hier bearbeite ich "NUR" die Kopie, nicht das Orginal
 
-  for (const todo of todos) {
-    if (todo.done === false) {
-      fetch("http://localhost:4730/todos/" + todo.id, {
-        method: "DELETE",
-      })
-        .then((response) => response.json())
-        .then((deletedTodo) => {
-          console.log(deletedTodo);
-          readDataFromApi();
-          renderHtml();
-        });
-      console.log(todos);
-    }
-  }
-}
+addBtn.addEventListener("click", function () {
+  addTodo();
+});
 
 /////////////////////////////////
-function editTodo() {}
-for (const todo of todos) {
-  if (todo.done === false) {
-    fetch("http://localhost:4730/todos/" + todo.id, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        description: todoInputElement.value,
-        done: todo.done,
-      }),
-    })
-      .then((response) => response.json())
-      .then((changedTodo) => {
-        console.log(changedTodo);
-        todo.description = changedTodo.description;
-        //console.log(todos);
-        renderHtml();
-      });
-  }
+function updateCheckboxState(todoData) {
+  fetch("http://localhost:4730/todos/" + todoData.id, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      description: todoData.description,
+      done: !todoData.done,
+    }),
+  })
+    .then((response) => response.json())
+    .then((updatedTodoApi) => {
+      todoData.done = updatedTodoApi.done;
+      renderHtml();
+    });
 }
 
 /////////////////////////////////
 function renderHtml() {
   todoUlList.innerHTML = "";
-  todos.forEach((todo) => {
+
+  state.todos.forEach((todo) => {
     const newLiElement = document.createElement("li");
     const textLi = document.createTextNode(todo.description);
     newLiElement.append(textLi);
@@ -101,48 +83,65 @@ function renderHtml() {
     checkbox.type = "checkbox";
     checkbox.checked = todo.done;
 
-    checkbox.addEventListener("change", function () {
-      if (todos.some((todo) => todo.done === true)) {
-        fetch("http://localhost:4730/todos/" + todo.id, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            description: todo.description,
-            done: !todo.done,
-          }),
-        })
-          .then((response) => response.json())
-          .then((updatedTodoFromApi) => {
-            todo.done = updatedTodoFromApi.done;
-            //console.log(updatedTodoFromApi);
-            console.log(todos);
-          });
-      }
-    });
+    checkbox.addEventListener("change", updateCheckboxState(todo));
 
     newLiElement.append(checkbox);
     todoUlList.appendChild(newLiElement);
   });
 }
+//////////////////////////////////
+function deleteDataFromApi() {
+  const doneTodos = state.todos.filter((todo) => todo.done === true);
+  const fetchDeleteCalls = [];
 
-// ////////////////////////////////
+  for (let doneTodo of doneTodos) {
+    fetchDeleteCalls.push(
+      fetch("http://localhost:4730/todos/" + doneTodo.id, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      })
+    );
+  }
 
-// function chooseTodo() {
-//   checkbox.addEventListener("change", function () {});
-//   const checkboxElements = document.querySelectorAll("input[type = checkbox]");
-//   console.log(checkboxElements);
-// }
-///////////////////////////////
-readDataFromApi();
-
-addBtn.addEventListener("click", function () {
-  addTodoToApi();
-});
+  Promise.all(fetchDeleteCalls).then(() => {
+    state.todos = state.todos.filter((todo) => todo.done === false);
+    renderTodos();
+  });
+}
 
 removeBtn.addEventListener("click", function () {
   removeTodoFromApi();
 });
+/////////////////////////////////
+// function editTodo(todoEdit, todoInputElement) {}
+// for (const todo of state.todos) {
+//   if (todo.done === false) {
+//     fetch("http://localhost:4730/todos/" + todo.id, {
+//       method: "PUT",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({
+//         description: todoInputElement.value,
+//         done: todo.done,
+//       }),
+//     })
+//       .then((response) => response.json())
+//       .then((editedTodo) => {
+//         console.log(editedTodo);
+//         todoEdit.description = editedTodo.description;
+//         //console.log(todos);
+//         renderHtml();
+//       });
+//   }
+// }
+// function todoEditing() {
+//   state.todos.forEach((todo) => {
+//     checkbox.addEventListener("change", editTodo(todo, todoInputElement));
+//   });
+// }
 
-changeBtn.addEventListener("click", function () {
-  editTodo();
-});
+// editBtn.addEventListener("click", function () {
+//   todoEditing();
+// });
+///////////////////////////////
+
+readDataFromApi();
