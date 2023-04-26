@@ -83,7 +83,7 @@ function renderHtml() {
     checkbox.type = "checkbox";
     checkbox.checked = todo.done;
 
-    checkbox.addEventListener("change", updateCheckboxState(todo));
+    checkbox.addEventListener("change", () => updateCheckboxState(todo));
 
     newLiElement.append(checkbox);
     todoUlList.appendChild(newLiElement);
@@ -105,7 +105,7 @@ function deleteDataFromApi() {
 
   Promise.all(fetchDeleteCalls).then(() => {
     state.todos = state.todos.filter((todo) => todo.done === false);
-    renderTodos();
+    renderHtml();
   });
 }
 
